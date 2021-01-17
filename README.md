@@ -5,6 +5,38 @@ Introduction
 In this tutorial we’ll ingest datasets using Data Warehouse on Data Lake (CDH V.6)  We will also using sqoop service to offload data to hdfs thorght RDBMS such as Mysql databases in hive.
 
 
+Prerequisites
+==============
+- Have access to CDH Cluster.
+- Basic linux ,HDFS and SQL CLI Skill.
+
+Outline
+==============
+Apache Sqoop: Import data from RDBMS to HDFS
+HIVE Manuals
+
+
+- Dowload dataset
+
+
+https://cwiki.apache.org/confluence/display/Hive/GettingStarted
+
+
+
+
+
+
+Introduction to Hue
+ 
+
+Hue is a web-based interactive query editor that enables you to interact with databases and data warehouses.
+
+Most commonly used interface is Editor:
+
+1. Selecting SQL icon  will display all existing database objects.
+You can get more detailed information by selecting on the object (i.e. database, table, view).
+2. Selecting Documents  will display all save queries
+3. Type a query in the editor panel and click the run icon  to run the query.
 
 
 
