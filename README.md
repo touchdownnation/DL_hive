@@ -1,6 +1,6 @@
 Introduction
 ==============
-![Docker Compose](logo.png?raw=true "Docker Compose Logo")
+![hive](buzzbee2.png?raw=true "hivepic Logo")
 
 In this tutorial we’ll ingest datasets using Data Warehouse on Data Lake (CDH V.6)  We will also using sqoop service to offload data to hdfs thorght RDBMS such as Mysql databases in hive.
 
