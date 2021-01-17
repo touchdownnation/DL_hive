@@ -1,6 +1,14 @@
- Docker Compose
+Introduction
 ==============
 ![Docker Compose](logo.png?raw=true "Docker Compose Logo")
+
+In this tutorial we’ll ingest datasets using Data Warehouse on Data Lake (CDH V.6)  We will also using sqoop service to offload data to hdfs thorght RDBMS such as Mysql databases in hive.
+
+
+
+
+
+
 
 Compose is a tool for defining and running multi-container Docker applications.
 With Compose, you use a Compose file to configure your application's services.
