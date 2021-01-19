@@ -120,6 +120,8 @@ For more information about the Compose file, see the https://cwiki.apache.org/co
 Data Type
 ---
 
+![hiveffm1](Screen%20Shot%202564-01-19%20at%2020.14.20.png?raw=true "hivepicfm Logo1")
+
 ### types primitive
 - TINYINT
 - SMALLINT
@@ -154,7 +156,7 @@ map('first', 1, 'second', 2, 'third', 3)
 create_union
 ```
 
-![hiveffm1](Screen%20Shot%202564-01-19%20at%2020.14.20.png?raw=true "hivepicfm Logo1")
+
 
 
 File Formatt
