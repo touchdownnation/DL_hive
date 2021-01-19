@@ -21,7 +21,8 @@ creates a table called invites with two columns and a partition column called ds
     hive> SHOW TABLES;
 lists all the tables.
 ---  
-    hive> SHOW TABLES '.*s';    
+    hive> SHOW TABLES '.*s';
+    
  lists all the table that end with 's'. The pattern matching follows Java regular expressions. Check out this link for documentation  http://java.sun.com/javase/6/docs/api/java/util/regex/Pattern.html.
 
  shows the list of columns.
