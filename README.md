@@ -1,6 +1,6 @@
 ## Introduction
 
-In this tutorial we’ll ingest datasets using Data Warehouse on Data Lake (CDH V.6)  We will also using sqoop service to offload data to hdfs thorght RDBMS such as Mysql databases in hive.
+In this tutorial we’ll ingest datasets using Data Warehouse on Data Lake (CDH V.6)  We will also using sqoop service to offload data to hdfs from RDBMS such as Mysql databases to hive.
 
 ### DDL Operations
 
