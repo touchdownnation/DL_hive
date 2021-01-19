@@ -9,6 +9,16 @@ sqoop-import --connect jdbc:mysql://172.26.60.61:3306/rman \
  --hive-import \
  --create-hive-table \
  --hive-table default.RMAN_USERGROUPHISTORY
+ 
+Importing from a Query [file]
+sqoop import
+--connect jdbc:mysql://host/nyse
+--query "SELECT * FROM StockPrices WHERE s.Volume >= 1000000 AND \$CONDITIONS "
+--target-dir /data/highvolume/
+--as-textfile
+--split-by StockSymbol
+ 
+ 
 
 
 Available commands:
