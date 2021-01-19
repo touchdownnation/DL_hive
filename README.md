@@ -174,6 +174,11 @@ Hive supports several file formats:
 - Parquet
 - Custom INPUTFORMAT and OUTPUTFORMAT 
 
+File Compression
+---
+- Compressed Data Storage
+- LZO Compression
+
 ![hiveffm](hiveFFM.png?raw=true "hivepicfm Logo")
 
 Create table with define storage file formatt  
@@ -218,11 +223,6 @@ external
     location '/user/thak/data';
 
 The hive.default.fileformat configuration parameter determines the format to use if it is not specified in a CREATE TABLE or ALTER TABLE statement.  Text file is the parameter's default value.
-
-File Compression
----
-- Compressed Data Storage
-- LZO Compression
 
 
 Managed vs. External Tables
