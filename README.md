@@ -1,8 +1,8 @@
-###Introduction
+## Introduction
 
 In this tutorial we’ll ingest datasets using Data Warehouse on Data Lake (CDH V.6)  We will also using sqoop service to offload data to hdfs thorght RDBMS such as Mysql databases in hive.
 
-###DDL Operations
+### DDL Operations
 
 The Hive DDL operations are documented in Hive Data Definition Language.https://cwiki.apache.org/confluence/display/Hive/GettingStarted
 
@@ -11,10 +11,11 @@ Creating Hive Tables
 creates a table called pokes with two columns, the first being an integer and the other a string.
 
     hive> CREATE TABLE pokes (foo INT, bar STRING);
-    hive> CREATE TABLE invites (foo INT, bar STRING) PARTITIONED BY (ds STRING);    
+    hive> CREATE TABLE invites (foo INT, bar STRING) PARTITIONED BY (ds STRING);
+    
 creates a table called invites with two columns and a partition column called ds. The partition column is a virtual column. It is not part of the data itself but  is derived from the partition that a particular dataset is loaded into.
 
- By default, tables are assumed to be of text input format and the delimiters are assumed to be ^A(ctrl-a).
+ By default, tables are assumed to be of text input format and the delimiters are assumed to be ^A(ctrl-a). '\001'
  Browsing through Tables
     
     hive> SHOW TABLES;
@@ -41,7 +42,7 @@ Dropping tables:
 ---
     hive> DROP TABLE pokes;
  
-###DML Operations
+### DML Operations
 
 The Hive DML operations are documented in Hive Data Manipulation Language. https://cwiki.apache.org/confluence/display/Hive/LanguageManual+DML  
 Hive Data Manipulation Language.
@@ -61,7 +62,7 @@ The two LOAD statements above load data into two different partitions of the tab
 The above command will load data from an HDFS file/directory to the table.
 Note that loading data from HDFS will result in moving the file/directory. As a result, the operation is almost instantaneous.
 
-###SQL Operations
+### SQL Operations
 
 
 SELECTS and FILTERS
@@ -128,7 +129,24 @@ Hive supports several file formats:
 - Avro Files
 - ORC Files
 - Parquet
-- Custom INPUTFORMAT and OUTPUTFORMAT
+- Custom INPUTFORMAT and OUTPUTFORMAT 
+
+Create table with define storage file formatt 
+
+        hive> CREATE TABLE IF NOT EXISTS my_table_into_my_schema ( col1 int not null primary key, col2 varchar(50)) 
+        row format delimited 
+        fields terminated by ',' 
+        LINES TERMINATED by '\n'
+        escaped BY '\\', 
+        null defined as '%THIS_IS_NULL%' s
+        stored as [--] ;
+        -- TEXT, 
+        -- SEQUENCEFILE
+        -- PARQUETFILE
+        -- ORC
+        -- RCFILE
+        -- TEXTFILE
+        
 
 The hive.default.fileformat configuration parameter determines the format to use if it is not specified in a CREATE TABLE or ALTER TABLE statement.  Text file is the parameter's default value.
 
@@ -140,6 +158,13 @@ File Compression
 - LZO Compression
 
 ![hiveffm](hiveFFM.png?raw=true "hivepicfm Logo")
+
+
+
+
+
+
+
 
 
 Managed vs. External Tables
