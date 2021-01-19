@@ -172,7 +172,7 @@ external
     ROW FORMAT DELIMITED
     FIELDS TERMINATED BY ','
     STORED AS TEXTFILE
-    location '/user/<username>/visdata';
+    location '/user/thak/data';
 
 The hive.default.fileformat configuration parameter determines the format to use if it is not specified in a CREATE TABLE or ALTER TABLE statement.  Text file is the parameter's default value.
 
