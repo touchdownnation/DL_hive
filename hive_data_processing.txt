@@ -1,0 +1,68 @@
+--DATA PROCESSING--
+ --Ingest data to DB
+ --1.SOURCES      RAW         TEXT,CSV   "aggregate,Cleansing"
+ --2.LANDING      STG         TEXT,CSV   "Convert to parq,orc"
+ --3.DEFINED      Warehouse   parq,ORC    Completed
+
+---#1 unload data to HDFS home path via Hue --
+-- [root@cdh-master-01 ~]# hdfs dfs -ls /user/admin/demo/emp/
+---rw-r--r--   3 admin admin      39169 2021-01-17 17:42 /user/admin/demo/emp/employee_metadata.csv
+
+---#2  - Create databases;
+CREATE DATABASE demo LOCATION '/data/warehouse/demo.db';
+
+---#3  - create tables;
+CREATE TABLE `demo.employee_metadata`(`factory_id` string,
+                                    `employee_id` string,
+                                    `gender` string,
+                                    `email` string,
+                                    `occupation` string,
+                                    `birthdate` string,
+                                    `salary` DOUBLE) 
+ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe' 
+WITH SERDEPROPERTIES ('colelction.delim'='','field.delim'=',','mapkey.delim'='','serialization.format'=',') 
+STORED AS INPUTFORMAT 'org.apache.hadoop.mapred.TextInputFormat' 
+OUTPUTFORMAT 'org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat' 
+LOCATION 'hdfs://cdh-master-01.poc.yits.com:8020/data/warehouse/demo.db/employee_metadata' 
+TBLPROPERTIES ('skip.header.line.count'='1');
+
+---#4 - load data;
+--LOAD DATA INPATH '/user/admin/demo/emp/*' OVERWRITE INTO TABLE demo.employee_metadata;
+
+LOAD DATA INPATH '/user/admin/demo/emp/*' INTO TABLE demo.employee_metadata;
+
+--#5  - checking data
+SELECT * FROM demo.employee_metadata where factory_id = 9 LIMIT 100;
+SELECT COUNT(*) from demo.employee_metadata;
+
+--#6  - create  ORC table :: Defined zone
+CREATE TABLE `demo.employee_metadata_orc1`(`factory_id` string,
+                                    `employee_id` string,
+                                    `gender` string,
+                                    `email` string,
+                                    `occupation` string,
+                                    `birthdate` string,
+                                    `salary` DOUBLE) 
+STORED AS ORC
+LOCATION 'hdfs://cdh-master-01.poc.yits.com:8020/data/warehouse/demo.db/employee_metadata_orc1';
+
+
+--#6 -Convert to ORC
+INSERT OVERWRITE TABLE demo.employee_metadata_orc1 SELECT * FROM demo.employee_metadata;
+
+select * from demo.employee_metadata_orc1 where factory_id = 9
+
+
+
+
+
+
+
+
+
+
+
+CREATE TABLE `test_dscreate`(	
+  `visit_id` int, 	
+  `store_id` smallint);
+
