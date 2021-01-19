@@ -131,6 +131,8 @@ Hive supports several file formats:
 - Parquet
 - Custom INPUTFORMAT and OUTPUTFORMAT 
 
+![hiveffm](hiveFFM.png?raw=true "hivepicfm Logo")
+
 Create table with define storage file formatt 
 
         hive> CREATE TABLE IF NOT EXISTS my_table_into_my_schema ( col1 int not null primary key, col2 varchar(50)) 
@@ -157,7 +159,7 @@ File Compression
 - Compressed Data Storage
 - LZO Compression
 
-![hiveffm](hiveFFM.png?raw=true "hivepicfm Logo")
+
 
 
 
