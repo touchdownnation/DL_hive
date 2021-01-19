@@ -117,6 +117,47 @@ Similarly – streaming can be used on the reduce side (please see the Hive Tuto
 
 For more information about the Compose file, see the https://cwiki.apache.org/confluence/display/Hive/GettingStarted
 
+Data Type
+---
+
+### types primitive
+TINYINT
+SMALLINT
+INT
+BIGINT
+BOOLEAN ( TRUE/FALSE )
+FLOAT
+DOUBLE
+DECIMAL
+STRING
+VARCHAR
+TIMESTAMP ( YYYY-MM-DD HH:MM:SS.ffffffff )
+DATE ( YYYY-MM-DD )
+```
+cast ( string_column_value as FLOAT )
+```
+### types comples
+* Arrays
+```
+array('a1', 'a2', 'a3')
+```
+* Structs
+```
+struct('a1', 'a2', 'a3')
+```
+* Maps
+```
+map('first', 1, 'second', 2, 'third', 3)
+```
+* Union
+```
+create_union
+```
+
+
+https://camo.githubusercontent.com/cb7b10848b318b6a7d5aebf6e625229462bac698807a0e5576a8ecd13aca1951/68747470733a2f2f7331392e706f7374696d672e63632f76673965717834777a2f62696773716c2d6461746174797065732e706e67
+
+
 File Formatt
 ---
 File Formats and Compression
