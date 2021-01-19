@@ -1,8 +1,3 @@
-
-https://cwiki.apache.org/confluence/display/Hive/GettingStarted
-
-
-
 Introduction
 ==============
 ![hive](buzzbee2.png?raw=true "hivepic Logo")
@@ -13,33 +8,47 @@ In this tutorial we’ll ingest datasets using Data Warehouse on Data Lake (CDH 
 
 
 DDL Operations
+
 Creating Hive Tables
-  hive> CREATE TABLE pokes (foo INT, bar STRING);
 creates a table called pokes with two columns, the first being an integer and the other a string.
 
-  hive> CREATE TABLE invites (foo INT, bar STRING) PARTITIONED BY (ds STRING);
-creates a table called invites with two columns and a partition column called ds. The partition column is a virtual column. It is not part of the data itself but is derived from the partition that a particular dataset is loaded into.
+    hive> CREATE TABLE invites (foo INT, bar STRING) PARTITIONED BY (ds STRING);
+     
 
-By default, tables are assumed to be of text input format and the delimiters are assumed to be ^A(ctrl-a).
 
-Browsing through Tables
-  hive> SHOW TABLES;
+
+
+For more information about the Compose file, see the https://cwiki.apache.org/confluence/display/Hive/GettingStarted
+
+    hive> CREATE TABLE pokes (foo INT, bar STRING);
+    hive> CREATE TABLE invites (foo INT, bar STRING) PARTITIONED BY (ds STRING);
+    
+ creates a table called invites with two columns and a partition column called ds. The partition column is a virtual column. It is not part of the data itself but  is derived from the partition that a particular dataset is loaded into.
+
+ By default, tables are assumed to be of text input format and the delimiters are assumed to be ^A(ctrl-a).
+ Browsing through Tables
+    
+    hive> SHOW TABLES;
+
 lists all the tables.
+  
+    hive> SHOW TABLES '.*s';
+    
+ lists all the table that end with 's'. The pattern matching follows Java regular expressions. Check out this link for documentation  http://java.sun.com/javase/6/docs/api/java/util/regex/Pattern.html.
 
-  hive> SHOW TABLES '.*s';
-lists all the table that end with 's'. The pattern matching follows Java regular expressions. Check out this link for documentation http://java.sun.com/javase/6/docs/api/java/util/regex/Pattern.html.
+ shows the list of columns.
 
-hive> DESCRIBE invites;
-shows the list of columns.
+    hive> DESCRIBE invites;
 
-Altering and Dropping Tables
-Table names can be changed and columns can be added or replaced:
+ Altering and Dropping Tables
+ Table names can be changed and columns can be added or replaced:
 
-  hive> ALTER TABLE events RENAME TO 3koobecaf;
-  hive> ALTER TABLE pokes ADD COLUMNS (new_col INT);
-  hive> ALTER TABLE invites ADD COLUMNS (new_col2 INT COMMENT 'a comment');
-  hive> ALTER TABLE invites REPLACE COLUMNS (foo INT, bar STRING, baz INT COMMENT 'baz replaces new_col2');
-Note that REPLACE COLUMNS replaces all existing columns and only changes the table's schema, not the data. The table must use a native SerDe. REPLACE COLUMNS can also be used to drop columns from the table's schema:
+      hive> ALTER TABLE events RENAME TO 3koobecaf;
+      hive> ALTER TABLE pokes ADD COLUMNS (new_col INT);
+      hive> ALTER TABLE invites ADD COLUMNS (new_col2 INT COMMENT 'a comment');
+      hive> ALTER TABLE invites REPLACE COLUMNS (foo INT, bar STRING, baz INT COMMENT 'baz replaces new_col2');
+  
+ Note that REPLACE COLUMNS replaces all existing columns and only changes the table's schema, not the data. The table must use a native SerDe. REPLACE COLUMNS can also be used to drop columns from the table's schema:
 
   hive> ALTER TABLE invites REPLACE COLUMNS (foo INT COMMENT 'only keep the first column');
 Dropping tables:
