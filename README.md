@@ -133,40 +133,53 @@ Hive supports several file formats:
 
 ![hiveffm](hiveFFM.png?raw=true "hivepicfm Logo")
 
-Create table with define storage file formatt 
-
-        hive> CREATE TABLE IF NOT EXISTS my_table_into_my_schema ( col1 int not null primary key, col2 varchar(50)) 
-        row format delimited 
-        fields terminated by ',' 
-        LINES TERMINATED by '\n'
-        escaped BY '\\', 
-        null defined as '%THIS_IS_NULL%' s
-        stored as [--] ;
+Create table with define storage file formatt  
+internal 
+    
+    CREATE TABLE IF NOT EXISTS testcreatetbl(
+        `id` int, 	
+        `user_` string, 	
+        `group_` string, 	
+        `file_count` bigint, 	
+        `bytes` bigint, 	
+        `raw_bytes` bigint, 	
+        `hdfsname` string, 	
+        `sample_date` bigint)	
+    COMMENT 'thak test 2020'
+    ROW FORMAT DELIMITED
+    FIELDS TERMINATED BY ','
+    STORED AS [--];
+        
         -- TEXT, 
         -- SEQUENCEFILE
         -- PARQUETFILE
         -- ORC
         -- RCFILE
         -- TEXTFILE
-        
+     
+external 
+
+    CREATE EXTERNAL TABLE IF NOT EXISTS testcreatetbl(
+        `id` int, 	
+        `user_` string, 	
+        `group_` string, 	
+        `file_count` bigint, 	
+        `bytes` bigint, 	
+        `raw_bytes` bigint, 	
+        `hdfsname` string, 	
+        `sample_date` bigint)	
+    COMMENT 'thak test 2020'
+    ROW FORMAT DELIMITED
+    FIELDS TERMINATED BY ','
+    STORED AS TEXTFILE
+    location '/user/<username>/visdata';
 
 The hive.default.fileformat configuration parameter determines the format to use if it is not specified in a CREATE TABLE or ALTER TABLE statement.  Text file is the parameter's default value.
-
-For more information, see the sections Storage Formats and Row Formats & SerDe on the DDL page.
 
 File Compression
 ---
 - Compressed Data Storage
 - LZO Compression
-
-
-
-
-
-
-
-
-
 
 
 Managed vs. External Tables
