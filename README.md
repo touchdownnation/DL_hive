@@ -1,39 +1,34 @@
-Introduction
-==============
+###Introduction
+
 ![hive](buzzbee2.png?raw=true "hivepic Logo")
 
 In this tutorial we’ll ingest datasets using Data Warehouse on Data Lake (CDH V.6)  We will also using sqoop service to offload data to hdfs thorght RDBMS such as Mysql databases in hive.
 
-DDL Operations
-==============
+###DDL Operations
 
+The Hive DDL operations are documented in Hive Data Definition Language.https://cwiki.apache.org/confluence/display/Hive/GettingStarted
 Creating Hive Tables
+---
 creates a table called pokes with two columns, the first being an integer and the other a string.
 
-    hive> CREATE TABLE invites (foo INT, bar STRING) PARTITIONED BY (ds STRING);
-     
-For more information about the Compose file, see the https://cwiki.apache.org/confluence/display/Hive/GettingStarted
-
     hive> CREATE TABLE pokes (foo INT, bar STRING);
-    hive> CREATE TABLE invites (foo INT, bar STRING) PARTITIONED BY (ds STRING);
-    
+    hive> CREATE TABLE invites (foo INT, bar STRING) PARTITIONED BY (ds STRING);    
 creates a table called invites with two columns and a partition column called ds. The partition column is a virtual column. It is not part of the data itself but  is derived from the partition that a particular dataset is loaded into.
 
  By default, tables are assumed to be of text input format and the delimiters are assumed to be ^A(ctrl-a).
  Browsing through Tables
     
     hive> SHOW TABLES;
-
 lists all the tables.
-  
-    hive> SHOW TABLES '.*s';
-    
+---  
+    hive> SHOW TABLES '.*s';    
  lists all the table that end with 's'. The pattern matching follows Java regular expressions. Check out this link for documentation  http://java.sun.com/javase/6/docs/api/java/util/regex/Pattern.html.
 
  shows the list of columns.
 
     hive> DESCRIBE invites;
  Altering and Dropping Tables
+ ---
  Table names can be changed and columns can be added or replaced:
 
       hive> ALTER TABLE events RENAME TO 3koobecaf;
@@ -44,24 +39,20 @@ lists all the tables.
 
       hive> ALTER TABLE invites REPLACE COLUMNS (foo INT COMMENT 'only keep the first column');
 Dropping tables:
-
+---
     hive> DROP TABLE pokes;
-  
- DML Operations
- ==============
-  Hive Data Manipulation Language.
-  Loading data from flat files into Hive:
+ 
+###DML Operations
 
+The Hive DML operations are documented in Hive Data Manipulation Language. https://cwiki.apache.org/confluence/display/Hive/LanguageManual+DML  
+Hive Data Manipulation Language.
+
+Loading data from flat files into Hive:
+---
     hive> LOAD DATA LOCAL INPATH './examples/files/kv1.txt' OVERWRITE INTO TABLE pokes;   
 Loads a file that contains two columns separated by ctrl-a into pokes table. 'LOCAL' signifies that the input file is on the local file system. If 'LOCAL' is omitted then it looks for the file in HDFS.
 
 The keyword 'OVERWRITE' signifies that existing data in the table is deleted. If the 'OVERWRITE' keyword is omitted, data files are appended to existing data sets.
-
-NOTES:
-
-NO verification of data against the schema is performed by the load command.
-If the file is in hdfs, it is moved into the Hive-controlled file system namespace.
-The root of the Hive directory is specified by the option hive.metastore.warehouse.dir in hive-default.xml. We advise users to create this directory before trying to create tables via Hive.
   
     hive> LOAD DATA LOCAL INPATH './examples/files/kv2.txt' OVERWRITE INTO TABLE invites PARTITION (ds='2008-08-15');
     hive> LOAD DATA LOCAL INPATH './examples/files/kv3.txt' OVERWRITE INTO TABLE invites PARTITION (ds='2008-08-08');
@@ -71,31 +62,26 @@ The two LOAD statements above load data into two different partitions of the tab
 The above command will load data from an HDFS file/directory to the table.
 Note that loading data from HDFS will result in moving the file/directory. As a result, the operation is almost instantaneous.
 
+###SQL Operations
 
-SQL Operations
-==============
-Example Queries
-Some example queries are shown below. They are available in build/dist/examples/queries.
-More are available in the Hive sources at hql/src/test/queries/positive.
 
 SELECTS and FILTERS
-       
+---       
     hive> SELECT a.foo FROM invites a WHERE a.ds='2008-08-15';
 selects column 'foo' from all rows of partition ds=2008-08-15 of the invites table. The results are not stored anywhere, but are displayed on the console.
 
 Note that in all the examples that follow, INSERT (into a Hive table, local directory or HDFS directory) is optional.
 
-    hive> INSERT OVERWRITE DIRECTORY '/tmp/hdfs_out' SELECT a.* FROM invites a WHERE a.ds='2008-08-15';
-    
+    hive> INSERT OVERWRITE DIRECTORY '/tmp/hdfs_out' SELECT a.* FROM invites a WHERE a.ds='2008-08-15';    
 selects all rows from partition ds=2008-08-15 of the invites table into an HDFS directory. The result data is in files (depending on the number of mappers) in that directory.
 NOTE: partition columns if any are selected by the use of *. They can also be specified in the projection clauses.
 
 Partitioned tables must always have a partition selected in the WHERE clause of the statement.
-
+---
     hive> INSERT OVERWRITE LOCAL DIRECTORY '/tmp/local_out' SELECT a.* FROM pokes a;
-
+    
 selects all rows from pokes table into a local directory.
-
+---
     hive> INSERT OVERWRITE TABLE events SELECT a.* FROM profiles a;
     hive> INSERT OVERWRITE TABLE events SELECT a.* FROM profiles a WHERE a.key < 100;
     hive> INSERT OVERWRITE LOCAL DIRECTORY '/tmp/reg_3' SELECT a.* FROM events a;
@@ -103,16 +89,17 @@ selects all rows from pokes table into a local directory.
     hive> INSERT OVERWRITE DIRECTORY '/tmp/reg_5' SELECT COUNT(*) FROM invites a WHERE a.ds='2008-08-15';
     hive> INSERT OVERWRITE DIRECTORY '/tmp/reg_5' SELECT a.foo, a.bar FROM invites a;
     hive> INSERT OVERWRITE LOCAL DIRECTORY '/tmp/sum' SELECT SUM(a.pc) FROM pc1 a;
+    
 selects the sum of a column. The avg, min, or max can also be used. Note that for versions of Hive which don't include HIVE-287, you'll need to use COUNT(1) in place of COUNT(*).
 
 GROUP BY
-  
+ --- 
     hive> FROM invites a INSERT OVERWRITE TABLE events SELECT a.bar, count(*) WHERE a.foo > 0 GROUP BY a.bar;
     hive> INSERT OVERWRITE TABLE events SELECT a.bar, count(*) FROM invites a WHERE a.foo > 0 GROUP BY a.bar;
 Note that for versions of Hive which don't include HIVE-287, you'll need to use COUNT(1) in place of COUNT(*).
 
 JOIN
-    
+---    
     hive> FROM pokes t1 JOIN invites t2 ON (t1.bar = t2.bar) INSERT OVERWRITE TABLE events SELECT t1.bar, t1.foo, t2.foo;
 MULTITABLE INSERT
   FROM src
@@ -123,9 +110,65 @@ MULTITABLE INSERT
     INSERT OVERWRITE LOCAL DIRECTORY '/tmp/dest4.out' SELECT src.value WHERE src.key >= 300;
 
 STREAMING
-  
+---  
     hive> FROM invites a INSERT OVERWRITE TABLE events SELECT TRANSFORM(a.foo, a.bar) AS (oof, rab) USING '/bin/cat' WHERE a.ds > '2008-08-09';
 This streams the data in the map phase through the script /bin/cat (like Hadoop streaming).
 Similarly – streaming can be used on the reduce side (please see the Hive Tutorial for examples).
 
+For more information about the Compose file, see the https://cwiki.apache.org/confluence/display/Hive/GettingStarted
+
+File Formatt
+---
+File Formats and Compression
+File Formats
+Hive supports several file formats:
+
+- Text File
+- SequenceFile
+- RCFile
+- Avro Files
+- ORC Files
+- Parquet
+- Custom INPUTFORMAT and OUTPUTFORMAT
+
+The hive.default.fileformat configuration parameter determines the format to use if it is not specified in a CREATE TABLE or ALTER TABLE statement.  Text file is the parameter's default value.
+
+For more information, see the sections Storage Formats and Row Formats & SerDe on the DDL page.
+
+File Compression
+---
+- Compressed Data Storage
+- LZO Compression
+
+![hiveffm](hiveFFM.png?raw=true "hivepicfm Logo")
+
+
+Managed vs. External Tables
+---
+
+Hive fundamentally knows two different types of tables:
+
+- Managed (Internal)
+- External
+
+Feature comparison
+     This means that there are lots of features which are only available for one of the two table types but not the other. This is an incomplete list of things:
+
+- ARCHIVE/UNARCHIVE/TRUNCATE/MERGE/CONCATENATE  >> only work for managed tables
+- DROP >> deletes data for managed tables while it only deletes metadata for external ones
+- ACID/Transactional >> only works for managed tables
+- Query Results Caching >> only works for managed tables
+
+
+Managed tables
+---
+A managed table is stored under the hive.metastore.warehouse.dir path property, by default in a folder path similar to /user/hive/warehouse/databasename.db/tablename/. The default location can be overridden by the location property during table creation. If a managed table or partition is dropped, the data and metadata associated with that table or partition are deleted. If the PURGE option is not specified, the data is moved to a trash folder for a defined duration.
+
+Use managed tables when Hive should manage the lifecycle of the table, or when generating temporary tables.
+
+External tables
+---
+An external table describes the metadata / schema on external files. External table files can be accessed and managed by processes outside of Hive. External tables can access data stored in sources such as Azure Storage Volumes (ASV) or remote HDFS locations. If the structure or partitioning of an external table is changed, an MSCK REPAIR TABLE table_name statement can be used to refresh metadata information.
+
+Use external tables when files are already present or in remote locations, and the files should remain even if the table is dropped.
 
