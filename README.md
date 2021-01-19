@@ -1,8 +1,3 @@
-
-
-
-![hive](buzzbee2.png?raw=true "hivepic Logo")
-
 ###Introduction
 
 In this tutorial we’ll ingest datasets using Data Warehouse on Data Lake (CDH V.6)  We will also using sqoop service to offload data to hdfs thorght RDBMS such as Mysql databases in hive.
@@ -10,6 +5,7 @@ In this tutorial we’ll ingest datasets using Data Warehouse on Data Lake (CDH 
 ###DDL Operations
 
 The Hive DDL operations are documented in Hive Data Definition Language.https://cwiki.apache.org/confluence/display/Hive/GettingStarted
+
 Creating Hive Tables
 ---
 creates a table called pokes with two columns, the first being an integer and the other a string.
