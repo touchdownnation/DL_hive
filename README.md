@@ -121,7 +121,7 @@ For more information about the Compose file, see the https://cwiki.apache.org/co
 Data Type
 ---
 
-![hiveffm1](Screen%20Shot%202564-01-19%20at%2020.14.20.png?raw=true "hivepicfm Logo1")
+![hiveffm1](hddt.png?raw=true "hivepicfm Logo1")
 
 ### types primitive
 - TINYINT
